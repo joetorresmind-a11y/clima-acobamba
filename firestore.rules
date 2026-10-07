@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+
+    function ownsExistingRecord() {
+      return signedIn() && resource.data.createdBy == request.auth.uid;
+    }
+
+    function canManageExistingRecord() {
+      return ownsExistingRecord() || isAdmin();
+    }
+
+    match /users/{uid} {
+      allow get: if isSelf(uid) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isSelf(uid)
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.role == "observador"
+        && request.resource.data.email == request.auth.token.email;
+      allow update: if (isSelf(uid)
+          && request.resource.data.uid == resource.data.uid
+          && request.resource.data.role == resource.data.role)
+        || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /observations/{observationId} {
+      allow get, list: if ownsExistingRecord() || isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.date is string
+        && request.resource.data.time is string
+        && request.resource.data.location is string
+        && request.resource.data.location.size() > 0
+        && request.resource.data.temperature is number
+        && request.resource.data.temperature >= -60
+        && request.resource.data.temperature <= 60
+        && request.resource.data.rainfall is number
+        && request.resource.data.rainfall >= 0
+        && request.resource.data.rainfall <= 1000
+        && request.resource.data.source in ["manual", "senamhi"];
+      allow update: if canManageExistingRecord()
+        && request.resource.data.createdBy == resource.data.createdBy;
+      allow delete: if canManageExistingRecord();
+    }
+
+    match /alerts/{alertId} {
+      allow get, list: if ownsExistingRecord() || isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.date is string
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.location is string
+        && request.resource.data.location.size() > 0
+        && request.resource.data.type is string
+        && request.resource.data.severity in ["alta", "preventiva", "informativa"]
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0
+        && request.resource.data.status == "activa";
+      allow update: if canManageExistingRecord()
+        && request.resource.data.createdBy == resource.data.createdBy;
+      allow delete: if canManageExistingRecord();
+    }
+  }
+}
