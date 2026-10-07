@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173d35">
+  <meta name="description" content="AgroClima Local: cuaderno de campo, observaciones SENAMHI, pronóstico y alertas para la actividad agropecuaria.">
+  <title>AgroClima Local · Cuaderno de campo</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%232d8745'/%3E%3Cpath d='M28 9C17 10 10 15 11 23c1 6 8 8 12 4 4-4 3-11 5-18ZM11 31c4-7 9-11 16-15' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <section class="auth-screen" id="authView">
+    <div class="auth-visual">
+      <div class="brand brand-light">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M24.7 5.3C14.5 6 8.3 10.6 8.8 18c.3 4.8 5.9 7 9.5 3.7 3.6-3.4 3.4-9.7 6.4-16.4ZM7.1 26.7c3.7-6.1 8.3-10.2 14.8-13.9"/></svg></span>
+        <span class="brand-copy"><strong>AgroClima</strong><small>LOCAL</small></span>
+      </div>
+      <div class="auth-visual-copy">
+        <span class="eyebrow eyebrow-light">PLATAFORMA DE CAMPO</span>
+        <h1>El clima de tu parcela,<br><span>en un solo lugar.</span></h1>
+        <p>Registra lo que observas, revisa el historial y organiza el trabajo agrícola con información local.</p>
+      </div>
+      <div class="field-illustration" aria-hidden="true">
+        <div class="sun"></div><div class="cloud cloud-one"></div><div class="cloud cloud-two"></div>
+        <div class="ridge ridge-back"></div><div class="ridge ridge-front"></div>
+        <div class="crop crop-a"></div><div class="crop crop-b"></div><div class="crop crop-c"></div><div class="crop crop-d"></div>
+      </div>
+      <div class="auth-place"><span class="place-dot"></span> Acobamba · Huancavelica <span class="place-divider">/</span> Cuaderno de campo</div>
+    </div>
+    <div class="auth-panel">
+      <div class="auth-panel-top">
+        <div class="brand brand-dark">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M24.7 5.3C14.5 6 8.3 10.6 8.8 18c.3 4.8 5.9 7 9.5 3.7 3.6-3.4 3.4-9.7 6.4-16.4ZM7.1 26.7c3.7-6.1 8.3-10.2 14.8-13.9"/></svg></span>
+          <span class="brand-copy"><strong>AgroClima</strong><small>LOCAL</small></span>
+        </div>
+        <span class="secure-note"><span class="secure-dot"></span> ACCESO SEGURO</span>
+      </div>
+      <div class="auth-form-wrap">
+        <span class="eyebrow">CUADERNO DE CAMPO</span>
+        <h2 id="authTitle">Bienvenido de nuevo</h2>
+        <p class="auth-intro" id="authIntro">Ingresa para continuar tu cuaderno.</p>
+        <form id="authForm">
+          <label for="authName" id="authNameWrap" class="field-label is-hidden">Nombre completo
+            <input id="authName" name="name" autocomplete="name" placeholder="Tu nombre">
+          </label>
+          <label for="authEmail" class="field-label">Correo electrónico
+            <input id="authEmail" name="email" type="email" autocomplete="email" placeholder="nombre@correo.com" required>
+          </label>
+          <label for="authPassword" class="field-label">Contraseña
+            <input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="6" placeholder="Mínimo 6 caracteres" required>
+          </label>
+          <div class="auth-error" id="authError" role="alert"></div>
+          <button class="button button-primary button-wide" id="authSubmit" type="submit">Ingresar <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="auth-switch"><span id="authSwitchText">¿Aún no tienes una cuenta?</span> <button type="button" class="text-button" id="authSwitch">Crear una cuenta</button></div>
+        <div class="auth-separator"><span></span><small>o</small><span></span></div>
+        <button type="button" class="button button-soft button-wide" id="demoButton"><span class="demo-spark">✳</span> Explorar modo demostración</button>
+        <p class="auth-footnote"><span class="info-circle">i</span> Los datos de demostración quedan guardados solo en este navegador.</p>
+      </div>
+      <div class="auth-footer"><span>AgroClima Local</span><span>Versión de campo · 2026</span></div>
+    </div>
+  </section>
+
+  <div class="app-layout is-hidden" id="appView">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M24.7 5.3C14.5 6 8.3 10.6 8.8 18c.3 4.8 5.9 7 9.5 3.7 3.6-3.4 3.4-9.7 6.4-16.4ZM7.1 26.7c3.7-6.1 8.3-10.2 14.8-13.9"/></svg></span>
+        <span class="brand-copy"><strong>AgroClima</strong><small>LOCAL</small></span>
+        <button class="icon-button sidebar-close" id="closeSidebar" type="button" aria-label="Cerrar menú">×</button>
+      </div>
+      <div class="sidebar-context">
+        <span class="context-label">CUADERNO ACTIVO</span>
+        <span class="context-place"><span class="place-dot"></span><span id="sidebarPlace">Acobamba · Huancavelica</span></span>
+      </div>
+      <nav class="side-nav" aria-label="Navegación principal">
+        <span class="nav-group-label">ESPACIO DE TRABAJO</span>
+        <button class="nav-link is-active" data-route="dashboard" type="button"><span class="nav-icon">▦</span>Resumen</button>
+        <button class="nav-link" data-route="observations" type="button"><span class="nav-icon">◷</span>Observaciones<span class="nav-count" id="observationNavCount"></span></button>
+        <button class="nav-link" data-route="history" type="button"><span class="nav-icon">⌁</span>Histórico</button>
+        <button class="nav-link" data-route="forecast" type="button"><span class="nav-icon">☼</span>Pronóstico<span class="nav-tag">API</span></button>
+        <button class="nav-link" data-route="alerts" type="button"><span class="nav-icon">⚑</span>Alertas manuales<span class="nav-alert-count" id="alertNavCount"></span></button>
+        <button class="nav-link is-hidden" id="adminNavLink" data-route="admin" type="button"><span class="nav-icon">▤</span>Administración</button>
+      </nav>
+      <div class="sidebar-note">
+        <span class="note-icon">✳</span>
+        <strong>Consejo de campo</strong>
+        <p>Registra a la misma hora para comparar mejor tus observaciones.</p>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="source-status" id="firebaseConnection"><span class="status-light"></span><span>Firebase conectado</span></div>
+        <button class="sidebar-user" id="userMenu" type="button" aria-label="Cerrar sesión">
+          <span class="avatar" id="userAvatar">MQ</span><span class="user-meta"><strong id="userName">María Quispe</strong><small id="userRole">Observadora</small></span><span class="user-menu-dots">···</span>
+        </button>
+        <button class="signout-link" id="signOutButton" type="button">↗ <span>Cerrar sesión</span></button>
+      </div>
+    </aside>
+    <div class="sidebar-shade" id="sidebarShade"></div>
+    <div class="main-shell">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="openSidebar" type="button" aria-label="Abrir menú">☰</button>
+        <div class="breadcrumb"><span>AgroClima</span><span class="crumb-slash">/</span><strong id="currentSection">Resumen</strong></div>
+        <div class="topbar-actions">
+          <span class="live-pill"><span class="status-light"></span><span id="modeLabel">CUADERNO ACTIVO</span></span>
+          <button class="icon-button topbar-settings" id="openSettings" type="button" aria-label="Configuración" title="Configuración">⚙</button>
+          <span class="topbar-user"><span class="topbar-avatar" id="topAvatar">MQ</span><span id="topName">María Quispe</span></span>
+        </div>
+      </header>
+      <main class="main-content">
+        <div class="demo-banner is-hidden" id="demoBanner"><span class="demo-banner-icon">✳</span><div><strong>Modo demostración</strong><span>Los registros de ejemplo son locales y no se enviarán a Firebase.</span></div><button id="leaveDemo" type="button">Salir del demo</button></div>
+        <div class="setup-banner is-hidden" id="firebaseBanner"><span class="banner-icon">i</span><div><strong>Conecta tu espacio de trabajo</strong><span>Revisa la configuración de Authentication y las reglas de Firestore.</span></div><button type="button" class="text-button" id="openSetupInfo">Ver guía</button></div>
+
+        <section class="page-section" id="page-dashboard">
+          <div class="page-heading">
+            <div><span class="eyebrow" id="todayLine">MIÉRCOLES, 7 DE OCTUBRE</span><h1>Vista general</h1><p>Un resumen claro para decidir las próximas labores de campo.</p></div>
+            <div class="heading-actions"><span class="location-chip"><span class="location-pin">⌖</span><span id="headingPlace">Acobamba · Huancavelica</span><span class="chip-chevron">⌄</span></span><button class="button button-primary" id="quickObservation" type="button"><span class="button-plus">＋</span> Nueva observación</button></div>
+          </div>
+          <div class="filter-bar">
+            <span class="filter-caption">PERIODO</span>
+            <label class="filter-date"><span>Desde</span><input id="dashFrom" type="date" aria-label="Fecha desde"></label>
+            <span class="filter-dash">—</span>
+            <label class="filter-date"><span>Hasta</span><input id="dashTo" type="date" aria-label="Fecha hasta"></label>
+            <span class="filter-divider"></span>
+            <label class="filter-place"><span>⌖</span><select id="dashLocation" aria-label="Filtrar por ubicación"><option value="">Todas las ubicaciones</option></select></label>
+            <button class="clear-filter" id="clearDashFilter" type="button">Limpiar filtros</button>
+            <span class="filter-total" id="filterTotal">Todos los registros</span>
+          </div>
+          <div class="metric-grid">
+            <article class="metric-card metric-green"><div class="metric-top"><span>Observaciones</span><span class="metric-icon">◷</span></div><div class="metric-value" id="metricObservations">—</div><div class="metric-foot"><span class="metric-indicator"></span>En el periodo seleccionado</div></article>
+            <article class="metric-card metric-blue"><div class="metric-top"><span>Temperatura media</span><span class="metric-icon">♨</span></div><div class="metric-value"><span id="metricTemperature">—</span><small>°C</small></div><div class="metric-foot">Promedio de lecturas registradas</div></article>
+            <article class="metric-card metric-sky"><div class="metric-top"><span>Lluvia acumulada</span><span class="metric-icon">⌁</span></div><div class="metric-value"><span id="metricRainfall">—</span><small>mm</small></div><div class="metric-foot">Suma observada en el periodo</div></article>
+            <article class="metric-card metric-amber"><div class="metric-top"><span>Alertas activas</span><span class="metric-icon">⚑</span></div><div class="metric-value" id="metricAlerts">—</div><div class="metric-foot"><span class="metric-indicator metric-indicator-amber"></span>Requieren seguimiento</div></article>
+          </div>
+          <div class="dashboard-grid">
+            <article class="panel chart-panel">
+              <div class="panel-heading"><div><span class="eyebrow">REGISTRO LOCAL</span><h2>Temperatura y lluvia</h2></div><button class="panel-link" data-route="history" type="button">Ver histórico <span>→</span></button></div>
+              <div class="chart-legend"><span><i class="legend-line"></i>Temperatura (°C)</span><span><i class="legend-bar"></i>Lluvia (mm)</span><span class="chart-range" id="chartRange">Últimos registros</span></div>
+              <div class="chart-wrap"><canvas id="observationsChart" aria-label="Gráfico de temperatura y lluvia observadas"></canvas><div class="chart-empty is-hidden" id="chartEmpty"><span class="empty-chart-icon">⌁</span><strong>Aún no hay datos en este periodo</strong><span>Registra una observación para construir el histórico.</span></div></div>
+              <p class="chart-note"><span>i</span> Gráfico basado en observaciones de campo; no representa un pronóstico.</p>
+            </article>
+            <article class="panel alerts-panel">
+              <div class="panel-heading"><div><span class="eyebrow">SEGUIMIENTO</span><h2>Alertas recientes</h2></div><button class="panel-link" data-route="alerts" type="button">Ver todas <span>→</span></button></div>
+              <div class="alert-list compact-alert-list" id="dashboardAlerts"></div>
+              <div class="empty-state compact-empty is-hidden" id="dashboardAlertsEmpty"><span class="empty-icon">⚑</span><strong>Sin alertas activas</strong><span>Los avisos de campo aparecerán aquí.</span></div>
+              <button class="new-alert-button" id="quickAlert" type="button"><span>＋</span> Crear alerta manual</button>
+            </article>
+            <article class="panel recent-panel">
+              <div class="panel-heading"><div><span class="eyebrow">CUADERNO DE CAMPO</span><h2>Últimas observaciones</h2></div><button class="panel-link" data-route="observations" type="button">Abrir cuaderno <span>→</span></button></div>
+              <div class="table-wrap"><table class="data-table"><thead><tr><th>FECHA</th><th>UBICACIÓN</th><th>TEMP.</th><th>LLUVIA</th><th>ORIGEN</th></tr></thead><tbody id="recentObservations"></tbody></table></div>
+              <div class="empty-state table-empty is-hidden" id="recentEmpty"><span class="empty-icon">◷</span><strong>Tu cuaderno está listo</strong><span>Agrega la primera observación para empezar.</span></div>
+            </article>
+          </div>
+          <div class="responsible-note"><span class="responsible-icon">✳</span><span><strong>Usa estos datos como apoyo.</strong> Contrasta las observaciones con el estado del suelo, el cultivo y la orientación técnica local.</span><button data-route="forecast" type="button">Consultar pronóstico</button></div>
+        </section>
+
+        <section class="page-section is-hidden" id="page-observations">
+          <div class="page-heading">
+            <div><span class="eyebrow">REGISTRO MANUAL · SENAMHI</span><h1>Observaciones de campo</h1><p>Cada entrada conserva una lectura puntual del clima local.</p></div>
+            <div class="heading-actions"><button class="button button-primary" id="newObservation" type="button"><span class="button-plus">＋</span> Nueva observación</button></div>
+          </div>
+          <div class="list-toolbar"><label class="search-field"><span>⌕</span><input id="observationSearch" type="search" placeholder="Buscar ubicación o cultivo…" aria-label="Buscar observaciones"></label><select class="select-control" id="observationSourceFilter" aria-label="Filtrar por origen"><option value="">Todos los orígenes</option><option value="manual">Manual</option><option value="senamhi">SENAMHI</option></select><button class="button button-outline" data-route="history" type="button">⌁ Ver histórico gráfico</button></div>
+          <article class="panel list-panel"><div class="panel-heading"><div><span class="eyebrow">BITÁCORA</span><h2>Entradas registradas</h2></div><span class="table-count" id="observationCount">0 entradas</span></div><div class="table-wrap"><table class="data-table roomy-table"><thead><tr><th>FECHA Y HORA</th><th>UBICACIÓN</th><th>TEMPERATURA</th><th>LLUVIA</th><th>HUMEDAD</th><th>CIELO</th><th>ORIGEN</th><th>ACCIONES</th></tr></thead><tbody id="observationRows"></tbody></table></div><div class="empty-state is-hidden" id="observationsEmpty"><span class="empty-icon">◷</span><strong>No hay observaciones todavía</strong><span>Registra una lectura manual o importa una observación disponible de SENAMHI.</span><button class="button button-primary" id="emptyNewObservation" type="button">Nueva observación</button></div></article>
+          <p class="data-source-note">Los datos importados desde SENAMHI se identifican como observaciones de estación. El dato manual conserva su propio origen y responsable.</p>
+        </section>
+
+        <section class="page-section is-hidden" id="page-history">
+          <div class="page-heading">
+            <div><span class="eyebrow">ANÁLISIS DEL PERIODO</span><h1>Histórico climático</h1><p>Compara temperatura y lluvia de las jornadas registradas.</p></div>
+            <div class="heading-actions"><button class="button button-outline" data-route="observations" type="button">← Volver al cuaderno</button></div>
+          </div>
+          <div class="filter-bar history-filter">
+            <span class="filter-caption">CONSULTA</span><label class="filter-date"><span>Desde</span><input id="historyFrom" type="date" aria-label="Histórico desde"></label><span class="filter-dash">—</span><label class="filter-date"><span>Hasta</span><input id="historyTo" type="date" aria-label="Histórico hasta"></label><span class="filter-divider"></span><label class="filter-place"><span>⌖</span><select id="historyLocation" aria-label="Ubicación histórica"><option value="">Todas las ubicaciones</option></select></label><button class="clear-filter" id="clearHistoryFilter" type="button">Limpiar</button><span class="filter-total" id="historyTotal">—</span>
+          </div>
+          <article class="panel history-chart-panel"><div class="panel-heading"><div><span class="eyebrow">SERIE OBSERVADA</span><h2>Temperatura y lluvia registradas</h2></div><span class="chart-period" id="historyPeriod">—</span></div><div class="chart-legend"><span><i class="legend-line"></i>Temperatura (°C)</span><span><i class="legend-bar"></i>Lluvia (mm)</span></div><div class="chart-wrap history-chart-wrap"><canvas id="historyChart" aria-label="Histórico de temperatura y lluvia"></canvas><div class="chart-empty is-hidden" id="historyChartEmpty"><strong>Sin datos para esta consulta</strong><span>Ajusta el periodo o registra nuevas observaciones.</span></div></div><div class="history-summary" id="historySummary"></div></article>
+          <div class="history-callout"><span>✳</span><div><strong>Lectura orientativa</strong><p>La serie resume únicamente las observaciones guardadas. No completa días sin lecturas ni estima condiciones futuras.</p></div></div>
+        </section>
+
+        <section class="page-section is-hidden" id="page-forecast">
+          <div class="page-heading">
+            <div><span class="eyebrow">FUENTE EXTERNA · GOOGLE WEATHER</span><h1>Pronóstico local</h1><p>Consulta condiciones previstas para apoyar la coordinación de labores.</p></div>
+            <div class="heading-actions"><button class="button button-outline" id="forecastSettings" type="button">⚙ Configurar API</button><button class="button button-primary" id="refreshForecast" type="button">↻ Actualizar</button></div>
+          </div>
+          <div class="forecast-place-bar"><span class="forecast-pin">⌖</span><div><strong id="forecastPlace">Acobamba · Huancavelica</strong><span id="forecastCoordinates">Coordenadas referenciales · Perú</span></div><span class="forecast-updated" id="forecastUpdated">API no configurada</span></div>
+          <div class="forecast-config-callout" id="forecastConfigCallout"><span class="forecast-key-icon">⌘</span><div><strong>Falta habilitar Google Weather</strong><p>Agrega la clave como secreto del servidor con el nombre GOOGLE_WEATHER_API_KEY. Así no queda expuesta en el navegador ni se guarda en Firebase.</p></div><button class="button button-dark" id="configureForecast" type="button">Ver información <span>→</span></button></div>
+          <div class="forecast-error is-hidden" id="forecastError" role="status"></div>
+          <article class="planting-assistant panel" aria-labelledby="plantingTitle">
+            <div class="planting-heading"><div><span class="eyebrow">DECISIÓN DE CAMPO</span><h2>¿Conviene sembrar esta semana?</h2><p>Combina el pronóstico de 7 días con el estado del terreno que observes.</p></div><span class="planting-window-tag">Evaluación orientativa</span></div>
+            <form class="planting-form" id="plantingForm">
+              <label class="field-label">Cultivo<input id="plantingCrop" maxlength="60" placeholder="Papa, maíz, quinua…" required></label>
+              <label class="field-label">Disponibilidad de agua<select id="plantingWater"><option value="secano">Secano, sin riego</option><option value="riego">Con riego disponible</option></select></label>
+              <label class="field-label">Estado actual del terreno<select id="plantingSoil"><option value="">Selecciona una opción</option><option value="ready">Húmedo y preparado</option><option value="dry">Seco</option><option value="saturated">Encharcado</option><option value="unknown">No lo he revisado</option></select></label>
+              <button class="button button-primary planting-submit" type="submit">Evaluar siembra <span>→</span></button>
+            </form>
+            <div class="planting-result planting-pending" id="plantingResult" aria-live="polite" aria-atomic="true">
+              <span class="planting-result-mark" id="plantingResultMark">i</span>
+              <div class="planting-result-copy"><span class="planting-result-badge" id="plantingResultBadge">PENDIENTE</span><strong id="plantingResultTitle">Completa los datos para evaluar.</strong><p id="plantingResultReason">La recomendación aparecerá cuando haya pronóstico disponible.</p><ul class="planting-signals" id="plantingSignals"></ul></div>
+              <span class="planting-period" id="plantingPeriod">7 DÍAS</span>
+            </div>
+            <div class="planting-note"><span>i</span><p>Es una alerta climática preliminar, no una garantía agronómica. Marca helada (≤0 °C), lluvia alta (≥25 mm/día) y calor (≥35 °C); no son umbrales específicos para cada cultivo. Confirma humedad del suelo, variedad y calendario local. <a href="https://cropcalendar.apps.fao.org/" target="_blank" rel="noopener noreferrer">Consultar calendario de cultivos de FAO ↗</a></p></div>
+          </article>
+          <div class="forecast-day-grid" id="forecastDays"></div>
+          <div class="forecast-grid">
+            <article class="panel forecast-chart-panel"><div class="panel-heading"><div><span class="eyebrow">PRÓXIMOS DÍAS</span><h2>Temperatura prevista</h2></div><span class="forecast-legend-tag">Máx. / mín. °C</span></div><div class="chart-wrap forecast-chart-wrap"><canvas id="forecastChart" aria-label="Temperaturas previstas por día"></canvas><div class="chart-empty is-hidden" id="forecastChartEmpty"><strong>Pronóstico pendiente</strong><span>Configura la API para consultar la predicción.</span></div></div></article>
+            <article class="panel hourly-panel"><div class="panel-heading"><div><span class="eyebrow">PRÓXIMAS HORAS</span><h2>Condiciones por hora</h2></div><span class="panel-micro-label">24 HORAS</span></div><div class="hourly-list" id="hourlyList"><div class="hourly-placeholder">Configura la API para ver el pronóstico horario.</div></div></article>
+          </div>
+          <div class="forecast-disclaimer"><span>i</span><p>Pronóstico automático de Google Weather. Los valores previstos son estimaciones y se muestran separados del histórico de observaciones.</p><a href="https://developers.google.com/maps/documentation/weather" target="_blank" rel="noopener noreferrer">Documentación de Google Weather ↗</a></div>
+        </section>
+
+        <section class="page-section is-hidden" id="page-alerts">
+          <div class="page-heading">
+            <div><span class="eyebrow">AVISOS DEL EQUIPO</span><h1>Alertas manuales</h1><p>Registra señales observadas y deja una recomendación clara para el equipo.</p></div>
+            <div class="heading-actions"><button class="button button-primary" id="newAlert" type="button"><span class="button-plus">＋</span> Nueva alerta</button></div>
+          </div>
+          <div class="metric-grid alert-metrics"><article class="metric-card metric-rose"><div class="metric-top"><span>Activas</span><span class="metric-icon">⚑</span></div><div class="metric-value" id="alertsActiveMetric">—</div><div class="metric-foot">Pendientes de seguimiento</div></article><article class="metric-card metric-green"><div class="metric-top"><span>Resueltas</span><span class="metric-icon">✓</span></div><div class="metric-value" id="alertsResolvedMetric">—</div><div class="metric-foot">Con seguimiento completado</div></article><article class="metric-card metric-blue"><div class="metric-top"><span>Última alerta</span><span class="metric-icon">◷</span></div><div class="metric-value metric-date-value" id="alertsLastMetric">—</div><div class="metric-foot">Fecha de registro más reciente</div></article></div>
+          <div class="list-toolbar alert-toolbar"><select class="select-control" id="alertStateFilter" aria-label="Filtrar alertas"><option value="">Todos los estados</option><option value="activa">Activas</option><option value="resuelta">Resueltas</option></select><select class="select-control" id="alertSeverityFilter" aria-label="Filtrar severidad"><option value="">Todas las severidades</option><option value="alta">Alta</option><option value="preventiva">Preventiva</option><option value="informativa">Informativa</option></select><span class="toolbar-spacer"></span><span class="table-count" id="alertCount">0 alertas</span></div>
+          <article class="panel list-panel"><div class="panel-heading"><div><span class="eyebrow">SEGUIMIENTO DE CAMPO</span><h2>Alertas registradas</h2></div><span class="table-count" id="alertPanelCount">—</span></div><div class="table-wrap"><table class="data-table roomy-table"><thead><tr><th>FECHA</th><th>ALERTA</th><th>UBICACIÓN</th><th>TIPO</th><th>SEVERIDAD</th><th>ESTADO</th><th>ACCIONES</th></tr></thead><tbody id="alertRows"></tbody></table></div><div class="empty-state is-hidden" id="alertsEmpty"><span class="empty-icon">⚑</span><strong>No hay alertas para mostrar</strong><span>Los avisos creados por el equipo aparecerán aquí.</span><button class="button button-primary" id="emptyNewAlert" type="button">Crear alerta</button></div></article>
+        </section>
+        <section class="page-section is-hidden" id="page-admin">
+          <div class="page-heading">
+            <div><span class="eyebrow">ACCESO RESTRINGIDO</span><h1>Administración</h1><p>Consulta las cuentas registradas y gestiona la limpieza de datos del equipo.</p></div>
+            <div class="heading-actions"><button class="button button-outline" id="refreshAdminUsers" type="button">↻ Actualizar lista</button></div>
+          </div>
+          <div class="admin-notice"><span class="admin-notice-icon">◆</span><div><strong>Panel visible solo para administradores</strong><span>El permiso se valida en Firebase. Solo la cuenta con rol admin puede borrar observaciones o alertas; esta lista muestra perfiles registrados en AgroClima.</span></div></div>
+          <div class="metric-grid admin-metrics">
+            <article class="metric-card metric-green"><div class="metric-top"><span>Perfiles registrados</span><span class="metric-icon">♙</span></div><div class="metric-value" id="adminUsersCountMetric">—</div><div class="metric-foot">Cuentas con perfil en Firestore</div></article>
+            <article class="metric-card metric-blue"><div class="metric-top"><span>Observaciones visibles</span><span class="metric-icon">◷</span></div><div class="metric-value" id="adminObservationsCount">—</div><div class="metric-foot">Registros de todo el equipo</div></article>
+            <article class="metric-card metric-amber"><div class="metric-top"><span>Alertas visibles</span><span class="metric-icon">⚑</span></div><div class="metric-value" id="adminAlertsCount">—</div><div class="metric-foot">Avisos de todo el equipo</div></article>
+          </div>
+          <article class="panel list-panel admin-users-panel">
+            <div class="panel-heading"><div><span class="eyebrow">FIREBASE AUTHENTICATION · PERFILES</span><h2>Usuarios registrados</h2><p>Perfiles creados al registrarse en AgroClima Local.</p></div><span class="table-count" id="adminUsersCount">0 cuentas</span></div>
+            <div class="table-wrap" id="adminUsersTableWrap"><table class="data-table roomy-table"><thead><tr><th>NOMBRE / UID</th><th>CORREO ELECTRÓNICO</th><th>ROL</th><th>FECHA DE REGISTRO</th></tr></thead><tbody id="adminUserRows"></tbody></table></div>
+            <div class="empty-state is-hidden" id="adminUsersEmpty"><span class="empty-icon">♙</span><strong>No hay perfiles para mostrar</strong><span>Cuando las personas creen una cuenta, sus perfiles aparecerán en esta lista.</span></div>
+          </article>
+          <p class="data-source-note">La lista proviene de la colección <code>users</code> de Firestore y requiere permiso de administrador. No incluye usuarios creados directamente en Firebase Authentication sin perfil de AgroClima.</p>
+        </section>
+        <footer class="app-footer"><span>AgroClima Local <span class="footer-dot">·</span> Cuaderno de campo</span><span>Datos observados y pronósticos se mantienen separados.</span></footer>
+      </main>
+    </div>
+  </div>
+
+  <dialog class="app-dialog form-dialog" id="observationDialog" aria-labelledby="observationDialogTitle">
+    <form method="dialog" class="dialog-card" id="observationForm">
+      <div class="dialog-header"><div><span class="eyebrow">NUEVA ENTRADA</span><h2 id="observationDialogTitle">Registrar observación</h2><p>Conserva la lectura puntual del clima local.</p></div><button class="dialog-close" type="button" data-close="observationDialog" aria-label="Cerrar">×</button></div>
+      <div class="source-switch" role="tablist" aria-label="Origen de la observación"><button type="button" class="source-tab is-selected" data-source-tab="manual" role="tab" aria-selected="true">Registro manual</button><button type="button" class="source-tab" data-source-tab="senamhi" role="tab" aria-selected="false">Importar de SENAMHI <span>↗</span></button></div>
+      <div class="senamhi-import is-hidden" id="senamhiImport">
+        <div class="import-heading"><span class="senamhi-logo">S</span><div><strong>Datos de estación SENAMHI</strong><span>Selecciona una estación con observación disponible.</span></div></div>
+        <div class="import-row"><label class="field-label">Estación<input id="stationSearch" type="search" placeholder="Cargar estaciones para buscar…"></label><button type="button" class="button button-outline import-load" id="loadStations">Buscar estaciones</button></div>
+        <label class="field-label">Resultados<select id="stationSelect"><option value="">Primero carga las estaciones</option></select></label>
+        <div class="station-status" id="stationStatus" role="status">Fuente: SENAMHI WIS 2.0 · observaciones sinópticas horarias.</div>
+        <button type="button" class="button button-dark button-wide" id="loadStationReading">Consultar última observación</button>
+      </div>
+      <div class="form-section"><div class="form-section-heading"><span class="section-index">01</span><div><strong>Momento y lugar</strong><small>Indica dónde y cuándo se tomó la lectura.</small></div></div>
+        <div class="form-grid form-grid-four"><label class="field-label">Fecha<input id="obsDate" name="date" type="date" required></label><label class="field-label">Hora<input id="obsTime" name="time" type="time" required></label><label class="field-label span-two">Ubicación<input id="obsLocation" name="location" maxlength="100" placeholder="Parcela norte" required></label><label class="field-label span-two">Cultivo <span class="optional-label">Opcional</span><input id="obsCrop" name="crop" maxlength="80" placeholder="Papa, maíz…"></label></div>
+      </div>
+      <div class="form-section"><div class="form-section-heading"><span class="section-index">02</span><div><strong>Variables observadas</strong><small>Usa las unidades señaladas en cada campo.</small></div></div>
+        <div class="form-grid form-grid-four"><label class="field-label">Temperatura <span class="unit-label">°C</span><input id="obsTemperature" name="temperature" type="number" step="0.1" min="-60" max="60" placeholder="23.5" required></label><label class="field-label">Lluvia <span class="unit-label">mm</span><input id="obsRainfall" name="rainfall" type="number" step="0.1" min="0" max="1000" placeholder="0" required></label><label class="field-label">Humedad <span class="unit-label">%</span><input id="obsHumidity" name="humidity" type="number" step="1" min="0" max="100" placeholder="68"></label><label class="field-label">Viento <span class="unit-label">km/h</span><input id="obsWind" name="windSpeed" type="number" step="0.1" min="0" max="500" placeholder="8"></label><label class="field-label span-two">Estado del cielo<select id="obsSky" name="sky"><option value="">Selecciona si corresponde</option><option>Despejado</option><option>Parcialmente nublado</option><option>Nublado</option><option>Llovizna</option><option>Lluvia</option><option>Tormenta</option><option>Niebla</option></select></label></div>
+      </div>
+      <div class="form-section"><div class="form-section-heading"><span class="section-index">03</span><div><strong>Notas del observador</strong><small>Describe el contexto que ayude a interpretar esta lectura.</small></div></div><label class="field-label"><textarea id="obsNotes" name="notes" rows="3" maxlength="700" placeholder="Ej. Lectura realizada antes de iniciar labores. Suelo con humedad superficial."></textarea></label></div>
+      <div class="import-attribution is-hidden" id="importAttribution"><span>↗</span><span>Lectura importada desde SENAMHI</span><span id="importStationName"></span></div>
+      <div class="dialog-footer"><button class="button button-outline" type="button" data-close="observationDialog">Cancelar</button><button class="button button-primary" id="saveObservation" type="submit">Guardar observación <span>→</span></button></div>
+    </form>
+  </dialog>
+
+  <dialog class="app-dialog form-dialog" id="alertDialog" aria-labelledby="alertDialogTitle">
+    <form method="dialog" class="dialog-card" id="alertForm">
+      <div class="dialog-header"><div><span class="eyebrow">AVISO DEL EQUIPO</span><h2 id="alertDialogTitle">Registrar alerta climática</h2><p>Deja una observación y una acción sugerida.</p></div><button class="dialog-close" type="button" data-close="alertDialog" aria-label="Cerrar">×</button></div>
+      <div class="form-section"><div class="form-section-heading"><span class="section-index">01</span><div><strong>Identificación</strong><small>Clasifica la señal que necesita seguimiento.</small></div></div><div class="form-grid form-grid-two"><label class="field-label">Fecha<input id="alertDate" name="date" type="date" required></label><label class="field-label">Tipo<select id="alertType" name="type"><option value="Lluvia">Lluvia</option><option value="Temperatura">Temperatura</option><option value="Helada">Helada</option><option value="Viento">Viento</option><option value="Otro">Otro</option></select></label><label class="field-label span-two">Título<input id="alertTitle" name="title" maxlength="100" placeholder="Lluvia acumulada en la jornada" required></label><label class="field-label">Ubicación<input id="alertLocation" name="location" maxlength="100" placeholder="Parcela norte" required></label><label class="field-label">Severidad<select id="alertSeverity" name="severity"><option value="preventiva">Preventiva</option><option value="informativa">Informativa</option><option value="alta">Alta</option></select></label></div></div>
+      <div class="form-section"><div class="form-section-heading"><span class="section-index">02</span><div><strong>Mensaje y respuesta</strong><small>Escribe una instrucción concreta para el equipo.</small></div></div><label class="field-label">Mensaje<textarea id="alertMessage" name="message" rows="3" maxlength="700" placeholder="Se observó lluvia intensa durante la tarde…" required></textarea></label><label class="field-label">Recomendación <span class="optional-label">Opcional</span><textarea id="alertRecommendation" name="recommendation" rows="2" maxlength="500" placeholder="Revisar el drenaje y posponer el ingreso a la parcela."></textarea></label></div>
+      <div class="dialog-footer"><button class="button button-outline" type="button" data-close="alertDialog">Cancelar</button><button class="button button-warning" id="saveAlert" type="submit">Guardar alerta <span>→</span></button></div>
+    </form>
+  </dialog>
+
+  <dialog class="app-dialog settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">
+    <form method="dialog" class="dialog-card" id="settingsForm">
+      <div class="dialog-header"><div><span class="eyebrow">PREFERENCIAS LOCALES</span><h2 id="settingsTitle">Configurar servicios</h2><p>La clave de Google se administra como secreto del servidor.</p></div><button class="dialog-close" type="button" data-close="settingsDialog" aria-label="Cerrar">×</button></div>
+      <div class="service-card"><div class="service-card-head"><span class="service-badge google-badge">G</span><div><strong>Google Weather API</strong><small>Pronóstico diario y por hora</small></div><span class="service-pill" id="googleKeyState">VERIFICANDO</span></div><p class="server-secret-note">Para habilitarla, define el secreto <code>GOOGLE_WEATHER_API_KEY</code> en la configuración segura del sitio. La página nunca recibe ni muestra su valor. Habilita Weather API y facturación en Google Cloud.</p><div class="form-grid form-grid-two coordinate-grid"><label class="field-label">Latitud<input id="weatherLat" type="number" step="0.0001" min="-90" max="90" value="-12.84" required></label><label class="field-label">Longitud<input id="weatherLon" type="number" step="0.0001" min="-180" max="180" value="-74.57" required></label></div><button class="text-button location-button" id="useCurrentLocation" type="button">⌖ Usar mi ubicación actual</button></div>
+      <div class="service-card service-card-muted"><div class="service-card-head"><span class="service-badge senamhi-badge">S</span><div><strong>SENAMHI WIS 2.0</strong><small>Estaciones sinópticas horarias</small></div><span class="service-pill service-ready">DISPONIBLE</span></div><p>La página consulta el catálogo y las lecturas de SENAMHI mediante rutas del sitio. Verifica que la estación tenga datos disponibles; las variables faltantes se completan en el formulario.</p><a class="source-link" href="https://wis.senamhi.gob.pe/oapi/collections?f=html" target="_blank" rel="noopener noreferrer">Abrir catálogo oficial de datos ↗</a></div>
+      <div class="dialog-footer"><button class="button button-outline" type="button" data-close="settingsDialog">Cancelar</button><button class="button button-primary" type="submit">Guardar coordenadas</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="app-dialog confirm-dialog" id="confirmDialog" aria-labelledby="confirmTitle"><div class="dialog-card confirm-card"><span class="confirm-mark">!</span><h2 id="confirmTitle">¿Eliminar este registro?</h2><p id="confirmText">Esta acción no se puede deshacer.</p><div class="dialog-footer"><button class="button button-outline" id="cancelConfirm" type="button">Cancelar</button><button class="button button-danger" id="acceptConfirm" type="button">Sí, eliminar</button></div></div></dialog>
+  <dialog class="app-dialog setup-dialog" id="setupDialog" aria-labelledby="setupTitle"><div class="dialog-card setup-card"><button class="dialog-close" type="button" data-close="setupDialog" aria-label="Cerrar">×</button><span class="eyebrow">PUESTA EN MARCHA</span><h2 id="setupTitle">Termina la conexión con Firebase</h2><p>La aplicación usa tu proyecto Firebase. Para activar las cuentas y guardar observaciones en la nube, verifica lo siguiente en Firebase Console:</p><ol><li>Activa <strong>Authentication → Correo electrónico/contraseña</strong>.</li><li>Crea la base de datos <strong>Cloud Firestore</strong>.</li><li>Publica el archivo <strong>firestore.rules</strong> incluido en el proyecto.</li><li>Confirma que el dominio de la página figure como dominio autorizado.</li></ol><p class="setup-security">El rol administrador se asigna manualmente al documento <code>users/{uid}</code>. Las cuentas nuevas se crean como observadoras.</p><div class="dialog-footer"><button class="button button-primary" type="button" data-close="setupDialog">Entendido</button></div></div></dialog>
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
